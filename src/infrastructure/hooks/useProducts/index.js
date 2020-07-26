@@ -13,13 +13,15 @@ const useProducts = () => {
   // List of Dispatchers
 	const {
     productsRequest,
-    productsChangePageRequest
+    productsChangePageRequest,
+    productsOrderByTypeRequest
   } = dispatchers;
 
   // Bind Actions
 	const productsActions = bindActions({
     productsRequest,
-    productsChangePageRequest
+    productsChangePageRequest,
+    productsOrderByTypeRequest
   }, dispatch);
 
   return { ...product, ...productsActions };

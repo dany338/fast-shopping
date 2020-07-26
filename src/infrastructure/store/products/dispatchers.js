@@ -2,7 +2,8 @@ import {
   productsListInit,
   productsListSuccess,
   productsListError,
-  productsChangePageInit
+  productsChangePageInit,
+  productsOrderByTypeInit
 } from './actions';
 import * as ProductsServices from "../../services";
 
@@ -25,10 +26,20 @@ export const productsRequest = to => {
   };
 };
 
-export const productsChangePageRequest = (page) => {
+export const productsChangePageRequest = page => {
   return async dispatch => {
     try {
       dispatch(productsChangePageInit(page));
+    } catch (error) {
+      console.error(error.toString());
+    }
+  };
+};
+
+export const productsOrderByTypeRequest = (type, page) => {
+  return async dispatch => {
+    try {
+      dispatch(productsOrderByTypeInit(type, page));
     } catch (error) {
       console.error(error.toString());
     }

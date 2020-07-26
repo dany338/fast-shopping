@@ -14,7 +14,7 @@ const ShoppingCart = () => {
     <Container>
       <div className="Card--header">
         <h1 className="Card--title">Shopping Cart</h1>
-        <div className="Card--button">Check Out</div>
+        <Link to={`/checkout`} className="Card--button">Check Out</Link>
       </div>
       <div className="Card--orders">
         {data.map((order) => <CardOrder key={`product-${order.id}-order`} {...order} /> )}
@@ -23,7 +23,7 @@ const ShoppingCart = () => {
         <Link to={`/products`} className="Card--link--continue">Continue Shopping</Link>
         <div className="Card--title">$ 440.43</div>
       </div>
-      <div className="Card--button">Check Out</div>
+      <Link to={`/checkout`} className="Card--button">Check Out</Link>
     </Container>
   )
 };
