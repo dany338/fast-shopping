@@ -7,7 +7,7 @@ import { Container } from './styled';
 /* Hooks */
 import { useOrders } from '../../infrastructure/hooks';
 
-const CardProduct = ({ id, name, image, price, description, categories }) => {
+const CardProduct = ({ id, name, image, price, description, Categories }) => {
   const { addShoppingCartRequest } = useOrders();
 
   const handleAddCart = () => {
@@ -15,7 +15,7 @@ const CardProduct = ({ id, name, image, price, description, categories }) => {
       id,
       name,
       image,
-      categories,
+      categories: Categories,
       units: 1,
       price,
       total: price
@@ -34,8 +34,8 @@ const CardProduct = ({ id, name, image, price, description, categories }) => {
       </div>
       <div className="Card--right">
         <h3 className="Card--title">{name}</h3>
-        <h6 className="Card--subtitle">{categories.join(', ')}</h6>
         <h6 className="Card--subtitle">{description}</h6>
+        <h6 className="Card--subtitle">{Categories.map(({name}) => name).join(', ')}</h6>
         <div className="Card--right--actions">
           <div className="Card--button" onClick={() => handleAddCart()}>Add to Cart</div>
           <h3 className="Card--title">{price}</h3>
@@ -51,7 +51,11 @@ CardProduct.propTypes = {
   image: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   description: PropTypes.string.isRequired,
-  categories: PropTypes.arrayOf(PropTypes.string),
+  Categories: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string
+    })
+  ),
 };
 
 export default withRouter(CardProduct);

@@ -7,8 +7,12 @@ export const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 0px 15px;
+  padding: 15px 15px;
   border-bottom: 2px solid #000;
+  position: fixed;
+  top: 0px;
+  background-color: #f5f6f7 !important;
+  z-index: 9999;
 
   .Card--title {
     text-transform: capitalize;
@@ -32,16 +36,19 @@ export const Container = styled.div`
   }
 
   .Card--order {
-    width: 32px;
-    height: 32px;
+    width: 20px;
+    height: 20px;
     background-color: #F44336 !important;
     text-transform: uppercase;
     outline: 0;
     vertical-align: middle;
     border-radius: 50%;
     position: relative;
-    top: 0px;
-    right: -5px;
+    top: 15px;
+    right: 15px;
+    text-align: center;
+    color: #fff;
+    position: absolute;
   }
 `;
 

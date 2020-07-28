@@ -1,12 +1,12 @@
 export default {
   users: {
-    create: '',
-    search: '',
+    create: '/api/users',
+    search: '/api/users',
   },
   products: {
-    list: '',
+    list: '/api/products',
   },
   orders: {
-    create: '',
+    create: '/api/orders',
   },
 };

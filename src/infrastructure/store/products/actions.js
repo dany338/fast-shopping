@@ -7,7 +7,7 @@ import {
 } from './types';
 
 export const productsListInit = () => ({ type: PRODUCTS_LIST_INIT });
-export const productsListSuccess = data => ({ type: PRODUCTS_LIST_SUCCESS, payload: { data } });
+export const productsListSuccess = (data, pageCount, to) => ({ type: PRODUCTS_LIST_SUCCESS, payload: { data, pageCount, to } });
 export const productsListError = error => ({ type: PRODUCTS_LIST_ERROR, payload: error });
 export const productsChangePageInit = page => ({ type: PRODUCTS_CHANGE_PAGE, payload: { page } });
 export const productsOrderByTypeInit = (type, page) => ({ type: PRODUCTS_ORDER_BY_TYPE, payload: { type, page } });

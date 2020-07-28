@@ -22,8 +22,8 @@ export default function mainReducer(state, action) {
   // Receiving current state here
   const currentState = {
     product: productsReducer.reducer(product, action),
-    order: productsReducer.reducer(order, action),
-    user: productsReducer.reducer(user, action),
+    order: ordersReducer.reducer(order, action),
+    user: usersReducer.reducer(user, action),
   };
 
   // Middlewares

@@ -4,6 +4,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { Container } from './styled';
 /* Components */
 import CardProduct from '../../components/CardProduct';
+import Pagination from '../../components/Pagination';
 /* Hooks */
 import { useProducts } from '../../infrastructure/hooks';
 /* Constants */
@@ -14,23 +15,25 @@ const Products = () => {
   const {
     isLoading,
     dataPagination: data,
-    productsRequest
+    productsRequest,
+    pageCount
   } = useProducts();
 
   const load = useCallback(async () => {
-    productsRequest(RECORDS_BY_PAGE);
+    await productsRequest(RECORDS_BY_PAGE);
+    setProcessing(true);
   }, [productsRequest]);
 
   useEffect(() => {
     if(!processing) {
       load();
-      setProcessing(true);
     }
-  }, [load, processing]);
+    console.log(isLoading);
+  }, [load, isLoading, processing]);
 
   return (
     <Container>
-      {!isLoading ? (
+      {!processing ? (
         <div style={{justifyContent: 'flex-end', width: '100%'}}>
           Loading information wait moment please...
           <SkeletonTheme color="#f42f6391" highlightColor="#444">
@@ -39,7 +42,9 @@ const Products = () => {
         </div>
       ) : (
         <>
-          {data.map((product) => <CardProduct key={`product-${product.id}`} {...product} /> )}
+          {pageCount > 0 && ( <Pagination pageCount={pageCount} />)}<br />
+          {data.map((product) => <CardProduct key={`product-${product.id}`} {...product} /> )}<br />
+          {pageCount > 0 && ( <Pagination pageCount={pageCount} />)}<br />
         </>
       )}
     </Container>

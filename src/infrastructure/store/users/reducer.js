@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import {
   USER_CREATE_INIT,
   USER_CREATE_SUCCESS,
@@ -8,18 +9,20 @@ import {
   USER_FORM_CUSTOMER_FIELD_CHANGE
 } from './types';
 
+const objCustomer = {
+  id: null,
+  fullName: '',
+  identification: '',
+  address: '',
+  phoneNumber: '',
+  email: ''
+};
+
 const initialState = {
   data: {},
   isLoading: false,
   error: '',
-  customer: {
-    id: null,
-    fullName: '',
-    identification: '',
-    address: '',
-    phoneNumber: '',
-    email: '',
-  },
+  customer: Cookies.get('fast_shopping_customer') ? JSON.parse(Cookies.get('fast_shopping_customer')) : objCustomer,
 };
 
 const user = (state = initialState, { type, payload }) => {
@@ -57,9 +60,22 @@ const user = (state = initialState, { type, payload }) => {
     }
 
     case USER_ME_SUCCESS: {
+      const newCustomer = {
+        id: payload.data.id,
+        fullName: payload.data.fullname,
+        identification: payload.data.identification,
+        address: payload.data.address,
+        phoneNumber: payload.data.phonenumber,
+        email: payload.data.email
+      };
+
+      Cookies.set('fast_shopping_customer', newCustomer, {
+        expires: 1
+      });
+
       return {
         ...state,
-        data: payload.data,
+        customer: newCustomer,
         isLoading: false,
       };
     }

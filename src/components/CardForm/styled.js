@@ -8,7 +8,13 @@ export const Container = styled.div`
   align-items: center;
   width: 100%;
   padding: 0px 15px;
-  border: 1px solid #ccc;
+  border: 2px dashed #333;
+  background:
+    linear-gradient(to top, #ffbc00, 2px, transparent 2px),
+    linear-gradient(to right, #ffbc00, 2px, transparent 2px),
+    linear-gradient(to bottom, #ffbc00, 2px, transparent 2px),
+    linear-gradient(to left, #ffbc00, 2px, transparent 2px);
+  background-origin: border-box;
 
   .Card--row--info {
     display: flex;
@@ -35,6 +41,7 @@ export const Container = styled.div`
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
+    width: 80%;
   }
 
   .Card--field {
@@ -42,6 +49,11 @@ export const Container = styled.div`
     color: #444;
     font-size: 1rem;
     font-weight: 600;
+    width: 20%;
+  }
+
+  .Card--input--text {
+    width: 55%;
   }
 
   .Card--button {
@@ -58,8 +70,8 @@ export const Container = styled.div`
     border-bottom: 0.5px solid #ce8e7b;
     text-align: center;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-    background-color: ${props => props.theme.backgroundButton} !important;
     color: #e4c439;
+    cursor: pointer;
 
     &:hover {
       background-color: ${props => props.theme.backgroundButtonHover} !important;
@@ -71,7 +83,15 @@ export const Container = styled.div`
     text-transform: capitalize;
     color: #444;
     font-size: 1rem;
-    background-color: ${props => props.theme.backgroundButton} !important;
+    border-radius: 10px;
+    padding: 1rem;
+    border-top: 0.5px solid #ce8e7b;
+    border-bottom: 0.5px solid #ce8e7b;
+    text-align: center;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    color: #e4c439;
+    cursor: pointer;
+
     &:hover {
       background-color: ${props => props.theme.backgroundButtonHover} !important;
       transform: scale(1.05);

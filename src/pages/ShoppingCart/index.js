@@ -10,6 +10,8 @@ import { useOrders } from '../../infrastructure/hooks';
 const ShoppingCart = () => {
   const { data } = useOrders();
 
+  const total = data.reduce((a, b) => a + b.total, 0);
+
   return (
     <Container>
       <div className="Card--header">
@@ -20,10 +22,12 @@ const ShoppingCart = () => {
         {data.map((order) => <CardOrder key={`product-${order.id}-order`} {...order} /> )}
       </div>
       <div className="Card--footer">
-        <Link to={`/products`} className="Card--link--continue">Continue Shopping</Link>
-        <div className="Card--title">$ 440.43</div>
+        <Link to={`/`} className="Card--link--continue">Continue Shopping</Link>
+        <div className="Card--title">{`$ ${total}`}</div>
       </div>
-      <Link to={`/checkout`} className="Card--button">Check Out</Link>
+      <div className="Card--footer second">
+        <Link to={`/checkout`} className="Card--button">Check Out</Link>
+      </div>
     </Container>
   )
 };

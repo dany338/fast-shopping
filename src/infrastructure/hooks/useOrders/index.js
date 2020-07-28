@@ -15,7 +15,8 @@ const useOrders = () => {
     ordersListRequest,
     addShoppingCartRequest,
     updateUnitsCartRequest,
-    ordersCreateRequest
+    ordersCreateRequest,
+    orderDeleteRequest
   } = dispatchers;
 
   // Bind Actions
@@ -23,7 +24,8 @@ const useOrders = () => {
     ordersListRequest,
     addShoppingCartRequest,
     updateUnitsCartRequest,
-    ordersCreateRequest
+    ordersCreateRequest,
+    orderDeleteRequest
   }, dispatch);
 
   return { ...order, ...ordersActions };

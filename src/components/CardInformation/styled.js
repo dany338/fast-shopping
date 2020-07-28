@@ -6,7 +6,7 @@ export const Container = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 30%;
   padding: 0px 15px;
 
   .Card--title {

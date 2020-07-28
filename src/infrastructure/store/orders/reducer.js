@@ -1,16 +1,18 @@
+import Cookies from 'js-cookie';
 import {
   ORDERS_LIST_INIT,
   ORDER_ADD_SHOPPING_CART_INIT,
   ORDER_UPDATE_UNITS_SHOPPING_CART_INIT,
   ORDER_CREATE_INIT,
   ORDER_CREATE_SUCCESS,
-  ORDER_CREATE_ERROR
+  ORDER_CREATE_ERROR,
+  ORDER_DELETE_INIT
 } from './types';
 /* Constants */
 import { LIMIT_BUYS_BY_PRODUCT } from '../../config/const';
 
 const initialState = {
-  data: [],
+  data: Cookies.get('fast_shopping_orders') ? JSON.parse(Cookies.get('fast_shopping_orders')) : [],
   code: null,
   isLoading: false,
   error: '',
@@ -29,19 +31,29 @@ const order = (state = initialState, { type, payload }) => {
     case ORDER_ADD_SHOPPING_CART_INIT: {
       const isProduct = product => product.id === payload.product.id;
       const verify = state.data.some(isProduct);
+      const orders = !verify ? [ ...state.data, payload.product ] : state.data.map((product) => (product.id === payload.product.id) ? { ...product, units: (product.units < LIMIT_BUYS_BY_PRODUCT) ? (product.units + 1) : product.units } : product);
+
+      Cookies.set('fast_shopping_orders', orders, {
+        expires: 1
+      });
 
       return {
         ...state,
-        data: !verify ? [ ...state.data, payload.product ] : state.data.map((product) => (product.id === payload.product.id) ? { ...product, units: (product.units < LIMIT_BUYS_BY_PRODUCT) ? (product.units + 1) : product.units } : product),
+        data: orders,
         error: '',
         isLoading: false,
       };
     }
 
     case ORDER_UPDATE_UNITS_SHOPPING_CART_INIT: {
+      const orders = state.data.map((item) => (item.id === payload.order.id) ? payload.order : item);
+      Cookies.set('fast_shopping_orders', orders, {
+        expires: 1
+      });
+
       return {
         ...state,
-        data: state.data.map((item) => (item.id === payload.order.id) ? payload.order : item),
+        data: orders,
         error: '',
         isLoading: false,
       };
@@ -56,6 +68,8 @@ const order = (state = initialState, { type, payload }) => {
     }
 
     case ORDER_CREATE_SUCCESS: {
+      Cookies.remove('fast_shopping_orders');
+      Cookies.remove('fast_shopping_customer');
       return {
         ...state,
         data: [],
@@ -70,6 +84,19 @@ const order = (state = initialState, { type, payload }) => {
         ...state,
         isLoading: false,
         error: payload,
+      };
+    }
+
+    case ORDER_DELETE_INIT: {
+      const orders = state.data.filter((item) => (item.id !== payload));
+      Cookies.set('fast_shopping_orders', orders, {
+        expires: 1
+      });
+
+      return {
+        ...state,
+        data: orders,
+        error: '',
       };
     }
 

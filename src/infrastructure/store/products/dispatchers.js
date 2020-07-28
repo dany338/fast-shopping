@@ -12,7 +12,9 @@ export const productsRequest = to => {
     dispatch(productsListInit());
     try {
       const data = await ProductsServices.apiProducts.list();
+      console.log('data', data);
       if(Array.isArray(data)) {
+        console.log('entro 2');
         const total = data.length;
         const pageCount = Math.ceil(total / to);
         dispatch(productsListSuccess(data, pageCount, to));

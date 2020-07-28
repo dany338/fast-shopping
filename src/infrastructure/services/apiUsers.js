@@ -24,7 +24,7 @@ const fetchParams = (method, data = '') => {
 export const apiUsers = {
   search: async email => {
     try {
-      const response = await fetch(`${API_URL}${endpoints.users.search}/${email}`, fetchParams('GET'));
+      const response = await fetch(`${API_URL}${endpoints.users.search}/${email}`, {mode:'cors'});
       if (!response.ok || response.status === 404 || response.status === 403 || response.status === 409 || response.status === 500 ) {
         const data = await response.json();
         if (typeof data.error !== 'undefined') {
@@ -36,9 +36,6 @@ export const apiUsers = {
         return response.statusText;
       }
       const data = await response.json();
-      if (typeof data.error !== 'undefined') {
-        return data.error;
-      }
       return data;
     } catch (error) {
       return error;

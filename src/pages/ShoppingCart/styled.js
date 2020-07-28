@@ -15,6 +15,18 @@ export const Container = styled.div`
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    padding: 15px 15px;
+  }
+
+  .Card--orders {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    padding: 15px 15px;
   }
 
   .Card--footer {
@@ -23,6 +35,12 @@ export const Container = styled.div`
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    padding: 15px 15px;
+  }
+
+  .second {
+    justify-content: flex-end !important;
   }
 
   .Card--title {
@@ -47,6 +65,11 @@ export const Container = styled.div`
     border-bottom: 0.5px solid #ce8e7b;
     text-align: center;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+
+    &:hover {
+      background-color: ${props => props.theme.backgroundButtonHover} !important;
+      transform: scale(1.05);
+    }
   }
 
   .Card--link--continue {

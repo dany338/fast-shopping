@@ -4,9 +4,20 @@ import {
   updateUnitsCartInit,
   orderCreateInit,
   orderCreateSuccess,
-  orderCreateError
+  orderCreateError,
+  orderDeleteInit
 } from './actions';
 import * as OrdersServices from "../../services";
+
+export const orderDeleteRequest = id => {
+  return async dispatch => {
+    try {
+      dispatch(orderDeleteInit(id));
+    } catch (error) {
+      console.error(error.toString());
+    }
+  };
+};
 
 export const ordersListRequest = () => {
   return async dispatch => {
@@ -38,13 +49,19 @@ export const updateUnitsCartRequest = (order) => {
   };
 };
 
-export const ordersCreateRequest = (orders) => {
+export const ordersCreateRequest = (orders, customer, code, total) => {
   return async dispatch => {
     dispatch(orderCreateInit());
     try {
-      const data = await OrdersServices.apiOrders.create(orders);
+      const info = {
+        orders: orders.map(({categories, ...newOrder}) => newOrder),
+        customer,
+        code,
+        total
+      }
+      const data = await OrdersServices.apiOrders.create(info);
       if(typeof data === 'object') {
-        dispatch(orderCreateSuccess(data));
+        dispatch(orderCreateSuccess(data.code));
         return { msg: 'Save info!', err: false };
       }
       if(typeof data === 'string') {

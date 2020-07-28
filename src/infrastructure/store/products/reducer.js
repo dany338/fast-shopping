@@ -33,7 +33,7 @@ const product = (state = initialState, { type, payload }) => {
       return {
         ...state,
         data: payload.data,
-        dataPagination: payload.data,
+        dataPagination: state.data.slice( (state.currentPage * payload.to), ((state.currentPage * payload.to) + payload.to) ),
         pageCount: payload.pageCount,
         to: payload.to,
         isLoading: false,
@@ -60,27 +60,27 @@ const product = (state = initialState, { type, payload }) => {
     }
 
     case PRODUCTS_ORDER_BY_TYPE: {
-      let purchasesShort = []
-      const { data: dataBackup } = state.data;
-      if(payload.type === MOST_RECENT) {
-        purchasesShort = dataBackup.sort((a, b) => ((new Date(b.createdAt)) - (new Date(a.createdAt))));
-      } else if(payload.type === LOWEST_PRICE) {
-        purchasesShort = dataBackup.sort((a, b) => (a.price - b.price));
-      } else if(payload.type === HIGHEST_PRICE) {
-        purchasesShort = dataBackup.sort((a, b) => (b.price - a.price));
-      } else if(payload.type === BEST_SELLERS) {
-        purchasesShort = dataBackup.sort((a, b) => (b.sellers - a.sellers));
+      let purchasesShort = state.data;
+      const type = payload.type !== '' ? Number(payload.type) : payload.type;
+      if(type === MOST_RECENT) {
+        purchasesShort = purchasesShort.sort((a, b) => ((new Date(b.createdAt)) - (new Date(a.createdAt))));
+      } else if(type === LOWEST_PRICE) {
+        purchasesShort = purchasesShort.sort((a, b) => (a.price - b.price));
+      } else if(type === HIGHEST_PRICE) {
+        purchasesShort = purchasesShort.sort((a, b) => (b.price - a.price));
+      } else if(type === BEST_SELLERS) {
+        purchasesShort = purchasesShort.sort((a, b) => (b.sellers - a.sellers));
       } else {
-        purchasesShort = dataBackup;
+        purchasesShort = purchasesShort.sort((a, b) => (a.id - b.id));
       }
-
+      console.log('purchasesShort', purchasesShort, type);
       return {
         ...state,
         error: '',
         isLoading: false,
-        type: payload.type,
+        type: type,
         dataPagination: purchasesShort.slice( (payload.page * state.to), ((payload.page * state.to) + state.to) ),
-        currentPage: 0,
+        currentPage: payload.page,
         to: 10,
       };
     }

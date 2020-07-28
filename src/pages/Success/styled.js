@@ -40,6 +40,12 @@ export const Container = styled.div`
     border-bottom: 0.5px solid #ce8e7b;
     text-align: center;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    cursor: pointer;
+
+    &:hover {
+      background-color: ${props => props.theme.backgroundButtonHover} !important;
+      transform: scale(1.05);
+    }
   }
 `;
 

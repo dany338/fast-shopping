@@ -1,13 +1,15 @@
 import React, { useState, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import Swal from 'sweetalert2';
 /* Style Components */
 import { Container } from './styled';
 /* Hooks */
 import { useUsers } from '../../infrastructure/hooks';
 /* Hooks */
-import { isValidEmail } from '../../infrastructure/config';
+import { isValidEmail } from '../../infrastructure/config/const';
 
-const CardForm = () => {
+const CardForm = ({ history }) => {
   const emailForm = useRef(null);
   const [ existing, setExisting ] = useState(false);
   const [ lookup, setLookup ] = useState(false);
@@ -20,19 +22,21 @@ const CardForm = () => {
   };
 
   const handleChangeField = e => {
-    const { value, name } = e.currentTarget;
-    userFormCustomerFieldChangeRequest(value, name);
+    const { name, value } = e.currentTarget;
+    userFormCustomerFieldChangeRequest(name, value);
   };
 
-  const handleLookup = () => {
+  const handleLookup = async () => {
     const email = emailForm.current.value;
 
     if(email !== '' && isValidEmail(email)) {
-      const { msg, err } = userMeRequest(email);
-      if(!err) setLookup(true);
+      const { msg, err } = await userMeRequest(email);
+      if(!err){
+        setLookup(true);
+      }
       else {
         Swal.fire({
-          title: 'ERROR!',
+          title: 'NOT FOUNT!',
           icon: 'info',
           text: `Error ${msg}`,
           confirmButtonText: 'OK'
@@ -65,27 +69,33 @@ const CardForm = () => {
               <h6 className="Card--field">Full Name*</h6>
               <div className="Card--input--text">
                 <input type="text" name="fullName" onChange={(e) => handleChangeField(e)} />
-                <p style={{color: 'red'}}>
-                  Full Name is required!
-                </p>
+                {customer.fullName === '' && (
+                  <p style={{color: 'red'}}>
+                    Full Name is required!
+                  </p>
+                )}
               </div>
             </div>
             <div className="Card--row">
               <h6 className="Card--field">ID*</h6>
               <div className="Card--input--text">
                 <input type="text" name="identification" onChange={(e) => handleChangeField(e)} />
-                <p style={{color: 'red'}}>
-                  ID is required!
-                </p>
+                {customer.identification === '' && (
+                  <p style={{color: 'red'}}>
+                    ID is required!
+                  </p>
+                )}
               </div>
             </div>
             <div className="Card--row">
               <h6 className="Card--field">Address*</h6>
               <div className="Card--input--text">
                 <input type="text" name="address" onChange={(e) => handleChangeField(e)} />
-                <p style={{color: 'red'}}>
-                  ID is required!
-                </p>
+                {customer.address === '' && (
+                  <p style={{color: 'red'}}>
+                    ID is required!
+                  </p>
+                )}
               </div>
             </div>
             <div className="Card--row">
@@ -101,9 +111,11 @@ const CardForm = () => {
             <h6 className="Card--field">Email*</h6>
             <div className="Card--input--text">
               <input type="text" name="email" ref={emailForm} onChange={(e) => handleChangeField(e)} />
-              <p style={{color: 'red'}}>
-                Email is required!
-              </p>
+              {customer.email === '' && (
+                <p style={{color: 'red'}}>
+                  Email is required!
+                </p>
+              )}
             </div>
           </div>
         ) : (
@@ -115,7 +127,7 @@ const CardForm = () => {
               <div className="Card--row--info">
                 <b>ID:</b> <span>{customer.identification}</span>
                 <b>Address:</b> <span>{customer.identification}</span>
-                <b>Phone Number:</b> <span>{customer.phonenumber}</span>
+                <b>Phone Number:</b> <span>{customer.phoneNumber}</span>
                 <b>Email:</b> <span>{customer.email}</span>
               </div>
             </div>
@@ -124,7 +136,7 @@ const CardForm = () => {
             </div>
           </>
         )}
-        {(existing && !lookup) && (
+        {(existing && !lookup && customer.email !== '') && (
           <div className="Card--row">
             <div className="Card--button" onClick={() => handleLookup()}>Lookup</div>
           </div>
@@ -134,4 +146,12 @@ const CardForm = () => {
   )
 };
 
-export default CardForm;
+CardForm.propTypes = {
+  history: PropTypes.oneOfType([PropTypes.object]),
+};
+
+CardForm.defaultProps = {
+  history: {},
+};
+
+export default withRouter(CardForm);

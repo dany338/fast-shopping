@@ -40,20 +40,17 @@ export const userCreateRequest = (orders, token) => {
   };
 };
 
-export const userMeRequest = (orders, token) => {
+export const userMeRequest = email => {
   return async dispatch => {
     dispatch(userMeInit());
     try {
-      const data = await UsersServices.apiUsers.create(orders, token);
-      if(typeof data === 'object') {
-        dispatch(userMeSuccess(data));
-        return { msg: data.message, err: false };
+      const data = await UsersServices.apiUsers.search(email);
+      if(typeof data.ok !== 'undefined' && data.ok) {
+        dispatch(userMeSuccess(data.data.dataValues));
+        return { msg: data.ok, err: false };
       }
-      if(typeof data === 'string') {
-        dispatch(userMeError(data.toString()));
-        return { msg: `${data}`, err: true };
-      }
-      return { msg: '', err: false };
+      dispatch(userMeError('Customer not found'));
+      return { msg: 'Customer not found', err: true };
     } catch (error) {
       dispatch(userMeError('An error was generated please consult the administrator!'));
       return { msg: 'An error was generated please consult the administrator!', err: true };

@@ -20,7 +20,7 @@ const Success = () => {
       <h1 className="Card--title">Thanks for your purchase</h1>
       <h3 className="Card--subtitle">{`Jhon, we have created your order #${code && (code)}. Your items will be soon at your door`}</h3>
       <h3 className="Card--subtitle">Stay safe</h3>
-      <Link to={`/products`} className="Card--button">Start Again</Link>
+      <Link to={`/`} className="Card--button">Start Again</Link>
     </Container>
   )
 };
